@@ -1,0 +1,152 @@
+<!doctype html><!--声明当前文档为html文档-->
+<html lang="en"><!--语言为英语-->
+	<head><!--头部-->
+		<meta charset="UTF-8"><!--字符编码：utf-8国际编码  gb2312中文编码-->
+		<meta name="Keywords" content="关键词">
+		<meta name="Description" content="描述">
+		<title>Document</title>
+		<style>/*css样式表的衣柜*/
+		*{margin:0px;padding:0px;}/*去除默认外边距、内边距*/
+		body{overflow:hidden;}
+		.wrap{width:300px;height:300px;margin:50px;position:absolute;top:50%;}
+		.person{height:75px;position:absolute;left:150px;top:150px;
+		animation:run 3s infinite ease-in-out;
+		}
+
+		.head{width:30px;height:30px;border:4px solid #fff;border-radius:50%;
+		position:absolute;left:-30px;top:-6px;
+		transform-origin:50% 100% 0px;/*设置旋转中心：x y z*/
+		animation:heads 2s infinite alternate;/*自定义动画：名称，时间 无限重复
+		alternate:动画轮流反向播放*/}
+		@keyframes heads{/*执行动画*/
+			0%{transform:rotateZ(5deg);/*旋转*/}
+			25%{transform:rotateZ(-30deg) skew(15deg,0deg);/*2d平面倾斜 x，y*/}
+			50%{transform:rotateZ(5deg);}
+			75%{transform:rotateZ(-30deg) skew(15deg,0deg);}
+			100%{transform:rotateZ(20deg) skew(-15deg,0deg);}
+		}
+		.head:before{
+			content:"";
+			position:absolute;
+			left:-6px;
+			top:0px;
+			width:42px;height:3px;
+			border:4px solid #fff;
+			background:#fff;
+			border-radius:20%;
+		}
+		.head:after{
+			content:"";
+			position:absolute;top:-12px;left:9px;
+			width:15px;height:12px;
+			background:#fff;
+			border:4px solid #fff;
+			border-radius:20%;
+		}
+		.arm{width:40px;height:45px;border:3px solid #fff;border-right:none;
+		border-top:none;/*transform:rotateZ(-90deg);*/position:absolute;
+		left:-19px;top:37px;
+		animation:arm 1s infinite ease;/*ease 速度曲线*/
+		transform-origin:0% 0% 0px;
+		}
+		.arm:nth-child(2){/*兄弟节点选择器*/
+			animation-delay:0.5s;/*动画延迟加载*/
+		}
+		@keyframes arm{
+			0%{transform:rotateZ(80deg);}
+			50%{transform:rotateZ(-70deg);}
+			100%{transform:rotateZ(80deg);}
+		}
+		.torso{width:0px;height:60px;border-left:3px solid #fff;
+		position:absolute;left:-21px;top:37px;}
+		.leg{width:60px;height:57px;border:3px solid #fff;border-bottom:0px;
+		border-left:0px;position:absolute;left:-19px;top:97px;
+		animation:leg 1s infinite ease;
+		transform-origin:0% 0% 0px;}
+		.leg:nth-child(5){
+			animation-delay:0.5s;
+		}
+		@keyframes leg{
+			0%{transform:rotateZ(-5deg)}
+			50%{transform:rotateZ(150deg)}
+			100%{transform:rotateZ(-5deg)}
+		}
+
+		@keyframes run{
+			0%{transform:translateX(-200px);}
+			100%{transform:translateX(1500px);}
+		}
+		</style>
+	</head>
+	<body><!--身体-->
+		<div class="wrap">
+			<div class="person">
+				<div class="head"></div>
+				<div class="arm"></div>
+				<div class="arm"></div>
+				<div class="torso"></div>
+				<div class="leg"></div>
+				<div class="leg"></div>
+			</div>
+		</div>
+		<canvas id="canvas">
+			您的浏览器不支持canvas标签，请您更换浏览器！！！
+		</canvas>
+		<script>
+			var canvas = document.getElementById("canvas");
+			var can = canvas.getContext("2d");//设置画布环境为2d环境
+			var s = window.screen;//获取到浏览器屏幕
+			var w = canvas.width = s.width;
+			var h = canvas.height = s.height;
+			//can.fillStyle = color2();//设置fill方法的颜色
+			//can.fillText(text,400,400);//绘制文本：文本内容，X坐标，Y坐标
+			
+			var words = Array(256).join("1").split("");//生成一个数组来保存字符
+			function draw(){
+				can.fillStyle = "rgba(0,0,0,0.05)";
+				can.fillRect(0,0,w,h);//画矩形
+				can.fillStyle = color2();
+				//var ft = 8 + Math.ceil(Math.random()*8);
+				//can.font = ft +"px 微软雅黑";
+				words.map(function(y,n){//数组里面具体元素的一个映射
+					text = String.fromCharCode(65+Math.ceil(Math.random()*57));//随机产生一个机器码
+					x = n*10;
+					can.fillText(text,x,y);
+					words[n] = (y > 758 + Math.random()*484) ? 0 : y+10;
+				});
+			}
+			setInterval(draw,10);
+			//draw();
+			//生成随即颜色，方法一
+			function color1(){
+				var colors = [0,1,2,3,4,5,6,7,8,9,"a","b","c","d","e","f"];
+				var color = "";
+				for(var i=0;i<6;i++){
+					var n = Math.ceil(Math.random()*15);//随机的获取到0-15之间的整数
+					color += ""+colors[n];
+					//console.log(color);
+					if(i==5){
+						return "#"+color;
+					}
+				}
+			}
+			//console.log(color1());
+			//生成随即颜色，方法二
+			function color2(){
+				var color = Math.ceil(Math.random()*16777215).toString(16);//随机生成一个0-16777215之间的随机数
+				while(color.length<6){
+					color += "0"+color;
+				}
+				return "#"+color;
+			}
+			//color2();
+			//生成随即颜色，方法三
+			function color3(){
+				return "#"+(function(color){
+					return new Array(7-color.length).join("0")+color
+				})((Math.random() * 0x1000000 << 0).toString(16))
+			}
+
+		</script>
+	</body>
+</html>
