@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas舞动时钟</title>
+	<style>
+		 *{
+		 	padding:0;
+		 	margin:0;
+		  }
+		  canvas{
+		  	 background:#000;
+		  	 margin:50px auto;
+		  	 display:block;
+		  }
+	</style>
+</head>
+<body>
+	  <canvas id="canvas" width="920" height="400">您的浏览器不支持canvas标签,请您更换浏览器</canvas>
+
+	  <script>
+	  	     var canvas = document.getElementById("canvas");
+	  	     var context = canvas.getContext("2d");
+	  	     context.beginPath();   // 开始路径
+	  	     context.arc(100,100,50,0,360,false);  // 圆心的x坐标,y坐标,半径,0度到360度,逆时针方向
+	  	     context.closePath();   // 结束路径
+	  	     //context.strokeStyle  = "#fff";
+	  	     //context.stroke();   // 画线条
+	         context.fillStyle = color();
+	         context.fill();
+
+	         // 生成随机颜色,方法一
+	         function color(){
+                var _color = Math.ceil(Math.random()*16777215).toString(16); // 0-1之间随机的一个数
+                while(_color.length<6){
+                    _color += "0"+_color;
+                }
+                console.log(_color);
+                return "#"+_color;
+	         }
+	         color();
+	         // 生成随机颜色,方法二
+	         function Color(){
+	         	return "#"+(function(h){
+                   return new Array(7-h.length).join("0")+h;
+	         	})((Math.random()*0x100000000<<0).toString(16));
+	         }
+	         
+	  </script>
+</body>
+</html>
+<!--
+   canvas:并不是块级元素
+   块级元素
+   十六进制的数:0-9,a-f
+   为什么要return?
+   功能函数如果不return的话,仅仅是执行了里面的东西,并没有一个结果输出,上面的要获取一个值要用,所以需要return值
+
+-->
