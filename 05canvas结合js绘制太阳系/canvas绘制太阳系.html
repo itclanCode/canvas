@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas绘制太阳系</title>
+	<style type="text/css">
+		    *{
+		    	margin:0px;
+		    	padding:0px;
+		    }
+		    #mycanvas{
+		    	background:#000;
+		    	margin:0 auto;
+		    }
+	</style>
+</head>
+<body>
+	   <canvas id="mycanvas" width="1000" height="1000">您的浏览器不支持canvas标签,请您更换浏览器!!</canvas>
+	   <script>
+	   	       var mycanvas = document.getElementById("mycanvas");  // 获取元素
+	   	       var can = mycanvas.getContext("2d");                 // 构建2d坏境
+	   	       can.strokeStyle = "#fff";
+	   	       can.beginPath();         /*开始路径*/
+	   	       can.arc(500,500,100,0,360,false);               /*路径,圆心x坐标,圆心y坐标,正园,逆时针方向*/
+	   	       can.closePath();         /*结束路径*/
+	   	       can.stroke();
+	   	       // 画太阳
+	   	       can.beginPath();
+	   	       can.arc(500,500,20,0,360,false);
+	   	       can.closePath();
+	   	       //can.stroke();
+	   	       var color = can.createRadialGradient(500,500,0,500,500,20);// x,y,中心点,内半径,外围的从什么渐变到什么
+	   	       color.addColorStop(0,"#f00");
+	   	       color.addColorStop(1,"#f60");
+	   	       can.fillStyle = color;   // 填充的一个颜色
+               can.fill();   // 填充方法
+	   </script>
+</body>
+</html>

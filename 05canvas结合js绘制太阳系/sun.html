@@ -1,0 +1,150 @@
+<!doctype html><!--声明当前文档为html文档-->
+<html lang="en"><!--语言为英语-->
+	<head><!--头部-->
+		<meta charset="UTF-8"><!--字符编码：utf-8国际编码  gb2312中文编码-->
+		<meta name="Keywords" content="关键词">
+		<meta name="Description" content="描述">
+		<title>Document</title>
+		<style>/*css样式表的衣柜*/
+		*{margin:0px;padding:0px;}/*去除默认外边距、内边距*/
+		#mycanvas{background:#000;}
+		</style>
+	</head>
+	<body><!--身体-->
+		<canvas id="mycanvas" width="1000" height="1000">
+			您的浏览器不支持canvas标签，请您更换浏览器！！！
+		</canvas>
+		<script>
+			var can  = document.getElementById("mycanvas").getContext("2d");
+			function drawTrack(){
+				for(var i = 0;i<8;i++){
+					can.beginPath();
+					can.arc(500,500,(i+1)*50,0,360,false);
+					can.closePath();
+					can.strokeStyle = "#fff";
+					can.stroke();
+				}
+			}
+			drawTrack();
+			//构建一个星体对象
+			/*function Star(x,y,radius,cycle,sColor,eColor){
+				this.x = x;
+				this.y = y;
+				this.radius = radius;
+				this.cycle = cycle;
+				this.sColor = sColor;
+				this.eColor = eColor;
+				this.color = null;
+				this.time = 0;/*画的次数
+				this.draw = function(){
+					//开辟异次元空间
+					can.save();/*保存之前画布内容
+					//重置异次元空间的坐标
+					can.translate(500,500);
+					//设置星体的旋转角度
+					can.rotate(this.time*(360/this.cycle)*Math.PI/180);
+					can.beginPath();
+					can.arc(this.x,this.y,this.radius,0,360,false);
+					can.closePath();
+					//填充颜色
+					this.color = can.createRadialGradient(this.x,this.y,0,this.x,
+					this.y,this.radius);
+					this.color.addColorStop(0,this.sColor);
+					this.color.addColorStop(1,this.eColor);
+					can.fillStyle = this.color;
+					can.fill();
+					can.restore();/*释放之前画布内容
+					this.time+=1;
+				}
+			}
+			
+			//创建一个太阳对象
+			function Sun(){
+				Star.call(this,0,0,20,0,"#f00","#f90");
+			}
+			function Mercury(){
+				Star.call(this,0,-50,10,87.7,"#3399cc","#ff0066");
+			}
+			function Venus(){
+				Star.call(this,0,-100,10,224.701,"#666600","#6633ff");
+			}
+			function Earth(){
+				Star.call(this,0,-150,10,365.24,"#000066","#ffffff");
+			}
+			function Mars(){
+				Star.call(this,0,-200,10,686.98,"#cc0033","#ccff33");
+			}
+			function Jupiter(){
+				Star.call(this,0,-250,20,4332.58,"#993333","#660000");
+			}
+			function Saturn(){
+				Star.call(this,0,-300,10,10759.5,"#33ff33","#ffcc00");
+			}
+			function Uranus(){
+				Star.call(this,0,-350,10,30799.095,"#33ff33","#ffcc00");
+			}
+			function Neptune(){
+				Star.call(this,0,-400,10,60152,"#33ff33","#ffcc00");
+			}
+			//创建太阳对象具体实例
+			var sun = new Sun();
+			var mercury = new Mercury();
+			var gold = new Venus();
+			var earth = new Earth();
+			var mars = new Mars();
+			var jupiter = new Jupiter();
+			var saturn = new Saturn();
+			var uranus= new Uranus();
+			var neptune =new Neptune();
+			
+
+			setInterval(function(){
+				can.clearRect(0,0,1000,1000);
+				drawTrack();
+				sun.draw();
+				mercury.draw();
+				gold.draw();
+				earth.draw();
+				mars.draw();
+				jupiter.draw();
+				saturn.draw();
+				uranus.draw();
+				neptune.draw();
+			},10);*/
+
+			var time = 0;
+			function draw(x,y,radius,cycle,sColor,eColor){
+					can.save();
+					can.translate(500,500);
+					//设置星体的旋转角度
+					can.rotate(time*(360/cycle)*Math.PI/180);
+					can.beginPath();
+					can.arc(x,y,radius,0,360,false);
+					can.closePath();
+					//填充颜色
+					var color = can.createRadialGradient(x,y,0,x,y,radius);
+					color.addColorStop(0,sColor);
+					color.addColorStop(1,eColor);
+					can.fillStyle = color;
+					can.fill();
+					can.restore();/*释放之前画布内容*/
+					time+=1;
+			}
+			function move(){
+				can.clearRect(0,0,1000,1000);
+				drawTrack();
+				draw(0,0,20,0,"#f00","#f90");
+				draw(0,-50,10,87.7,"#3399cc","#ff0066");
+				draw(0,-100,10,224.701,"#666600","#6633ff");
+				draw(0,-150,10,365.24,"#000066","#ffffff");
+				draw(0,-200,10,686.98,"#cc0033","#ccff33");
+				draw(0,-250,20,4332.58,"#993333","#660000");
+				draw(0,-300,10,10759.5,"#33ff33","#ffcc00");
+				draw(0,-350,10,30799.095,"#33ff33","#ffcc00");
+				draw(0,-400,10,60152,"#33ff33","#ffcc00");
+			}
+
+			setInterval(move,100);
+		</script>
+	</body>
+</html>
